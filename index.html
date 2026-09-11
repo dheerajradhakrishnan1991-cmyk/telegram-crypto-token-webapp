@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1f1f1f">
+    <title>CryptoGamify - Earn Tokens While Playing</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">💎 CryptoGamify</h1>
+                <div class="header-stats">
+                    <div class="stat">
+                        <span class="stat-label">Balance</span>
+                        <span class="stat-value" id="balance">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Level</span>
+                        <span class="stat-value" id="level">1</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Games Section -->
+            <section class="games-section">
+                <h2>Play & Earn</h2>
+                <div class="games-grid">
+                    <div class="game-card" onclick="startGame('tap')">
+                        <div class="game-icon">👆</div>
+                        <h3>Tap Master</h3>
+                        <p class="game-reward">+50 Tokens</p>
+                        <p class="game-desc">Tap as fast as you can!</p>
+                    </div>
+                    <div class="game-card" onclick="startGame('memory')">
+                        <div class="game-icon">🧠</div>
+                        <h3>Memory Match</h3>
+                        <p class="game-reward">+100 Tokens</p>
+                        <p class="game-desc">Match pairs correctly</p>
+                    </div>
+                    <div class="game-card" onclick="startGame('snake')">
+                        <div class="game-icon">🐍</div>
+                        <h3>Snake Hunt</h3>
+                        <p class="game-reward">+150 Tokens</p>
+                        <p class="game-desc">Classic snake game</p>
+                    </div>
+                    <div class="game-card" onclick="startGame('flappy')">
+                        <div class="game-icon">🦅</div>
+                        <h3>Flappy Wings</h3>
+                        <p class="game-reward">+200 Tokens</p>
+                        <p class="game-desc">Avoid obstacles</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Token Creation Section -->
+            <section class="token-section">
+                <h2>Create Your Token</h2>
+                <div class="token-card">
+                    <button class="primary-btn" onclick="openTokenCreator()">
+                        🚀 Create Token
+                    </button>
+                    <p class="info-text">Requires 500 tokens to create</p>
+                </div>
+            </section>
+
+            <!-- Leaderboard Section -->
+            <section class="leaderboard-section">
+                <h2>Top Players 🏆</h2>
+                <div class="leaderboard">
+                    <div class="leaderboard-item">
+                        <span class="rank">1</span>
+                        <span class="name">CryptoKing</span>
+                        <span class="score">25,420</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">2</span>
+                        <span class="name">TokenMaster</span>
+                        <span class="score">23,150</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">3</span>
+                        <span class="name">GameAce</span>
+                        <span class="score">21,890</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">4</span>
+                        <span class="name">You</span>
+                        <span class="score" id="user-score">0</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Container (Hidden by default) -->
+        <div id="gameContainer" class="game-container" style="display: none;">
+            <div class="game-header">
+                <button class="close-btn" onclick="closeGame()">✕</button>
+                <h3 id="gameTitle"></h3>
+                <span id="gameScore" class="game-score">0</span>
+            </div>
+            <div id="gameContent" class="game-content"></div>
+        </div>
+
+        <!-- Token Creator Modal -->
+        <div id="tokenModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeTokenCreator()">✕</button>
+                <h2>Create Your Token</h2>
+                <form id="tokenForm">
+                    <div class="form-group">
+                        <label>Token Name</label>
+                        <input type="text" id="tokenName" placeholder="e.g., MyGamifyToken" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Symbol (4 chars)</label>
+                        <input type="text" id="tokenSymbol" placeholder="e.g., MGT" maxlength="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Supply</label>
+                        <input type="number" id="tokenSupply" placeholder="e.g., 1000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Decimal Places</label>
+                        <input type="number" id="tokenDecimals" value="18" min="0" max="18">
+                    </div>
+                    <div class="token-preview">
+                        <h4>Preview</h4>
+                        <p id="previewName">Your Token Name</p>
+                        <p id="previewSymbol">SYMBOL</p>
+                        <p id="previewSupply">Total Supply: 0</p>
+                    </div>
+                    <button type="submit" class="primary-btn">Create Token</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="navigateTo('home')">
+                <span>🏠</span>
+                <p>Home</p>
+            </button>
+            <button class="nav-item" onclick="navigateTo('tokens')">
+                <span>💎</span>
+                <p>Tokens</p>
+            </button>
+            <button class="nav-item" onclick="navigateTo('rewards')">
+                <span>🎁</span>
+                <p>Rewards</p>
+            </button>
+            <button class="nav-item" onclick="navigateTo('profile')">
+                <span>👤</span>
+                <p>Profile</p>
+            </button>
+        </nav>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="games.js"></script>
+    <script src="telegram.js"></script>
+</body>
+</html>
