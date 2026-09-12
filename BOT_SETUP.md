@@ -23,7 +23,7 @@ A complete guide to set up your CryptoGamify Telegram Bot and Web App.
 
 Example response:
 ```
-Done! Congratulations on your new bot. You will find it at t.me/cryptogamifybot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands.
+Done! Congratulations on your new bot. You will find it at t.me/cryptogamifybot.
 
 Use this token to access the HTTP API:
 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
